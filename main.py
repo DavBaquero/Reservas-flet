@@ -1,7 +1,7 @@
 import flet as ft
 
-from Vist.appbar import create_appbar
-from Vist.login import login_view
+from View.appbar import create_appbar
+from View.login import login_view
 
 def main(page: ft.Page):
     page.title = "Flet Counter App"
