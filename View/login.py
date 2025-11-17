@@ -14,7 +14,7 @@ def login_view(page: ft.Page):
     login_button = ft.ElevatedButton(text="Iniciar Sesión", width=150, on_click=check_login)
     separator = ft.Divider(height=20)
     signup_text = ft.Text("¿No tienes cuenta? Regístrate", size=25)
-    signup_button = ft.ElevatedButton(text="Registrarse", width=150)
+    signup_button = ft.ElevatedButton(text="Registrarse", width=150, on_click=login_controller.register_button_clicked)
 
     page.add(
         login_text,
