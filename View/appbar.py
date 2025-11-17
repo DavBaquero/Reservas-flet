@@ -1,5 +1,5 @@
 import flet as ft
-import Vist.user as user_view
+import View.user as user_view
 
 def create_appbar():
     return ft.AppBar(
