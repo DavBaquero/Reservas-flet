@@ -1,6 +1,7 @@
 import flet as ft
 
 from View.home import home_view
+import Model.register_model as register_model
 
 def register_button_clicked(e, username, password, password_confirm):
     page = e.page
@@ -12,12 +13,22 @@ def register_button_clicked(e, username, password, password_confirm):
         username.error_text = "Por favor, ingresa un nombre de usuario"
         page.update()
         return
-    elif not password_value:
+    elif len(username_value) < 4:
+        username.error_text = "El nombre de usuario debe tener al menos 4 caracteres"
+        page.update()
+        return
+        
+    if not password_value:
         password.error_text = "Por favor, ingresa una contraseña"
         username.error_text = None
         page.update()
+        return    
+    elif len(password_value) < 6:
+        password.error_text = "La contraseña debe tener al menos 6 caracteres"
+        page.update()
         return
-    elif password_value != password_confirm_value:
+
+    if password_value != password_confirm_value:
         password_confirm.error_text = "Las contraseñas no coinciden"
         password.error_text = None
         username.error_text = None
@@ -27,6 +38,11 @@ def register_button_clicked(e, username, password, password_confirm):
         username.error_text = None
         password.error_text = None
         password_confirm.error_text = None
+
+        if not register_model.create_user(username_value, password_value):
+            username.error_text = "El usuario ya existe"
+            page.update()
+            return
         page.controls.clear()
         home_view(page)
         page.update()
