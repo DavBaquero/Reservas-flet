@@ -1,9 +1,14 @@
 import flet as ft
-import View.user as user_view
 
 def create_appbar():
+    home_button=ft.Container(
+        content=ft.Text("Reservas Galvintec"),
+        on_click=go_home,
+        tooltip="Ir a la página de inicio", 
+    )
+
     return ft.AppBar(
-        title=ft.Text("Reservas Galvintec"),
+        title=home_button,
         bgcolor=ft.Colors.BLUE_GREY_700,
         actions=[
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme),
@@ -34,6 +39,13 @@ def change_theme(e):
     page.update()
 
 def user_page(e):
+    import View.user as user_view
     page = e.page
     page.controls.clear()
     user_view.user_view(page)
+
+def go_home(e):
+    import View.home as home_view
+    page = e.page
+    page.controls.clear()
+    home_view.home_view(page)
