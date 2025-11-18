@@ -2,12 +2,17 @@ import flet as ft
 
 from View.home import home_view
 import Model.register_model as register_model
+import hashlib
 
 def register_button_clicked(e, username, password, password_confirm):
     page = e.page
     username_value = username.value
     password_value = password.value
     password_confirm_value = password_confirm.value
+
+    username.error_text = None
+    password.error_text = None
+    password_confirm.error_text = None
 
     if not username_value:
         username.error_text = "Por favor, ingresa un nombre de usuario"
@@ -38,11 +43,14 @@ def register_button_clicked(e, username, password, password_confirm):
         username.error_text = None
         password.error_text = None
         password_confirm.error_text = None
-
-        if not register_model.create_user(username_value, password_value):
+        password_hashed = hashed_password(password_value)
+        if not register_model.create_user(username_value, password_hashed):
             username.error_text = "El usuario ya existe"
             page.update()
             return
         page.controls.clear()
         home_view(page)
         page.update()
+
+def hashed_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
