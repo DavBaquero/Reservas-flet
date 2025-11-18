@@ -36,8 +36,8 @@ def login_button_clicked(e, login_field, password_field):
     elif len(password_value) < 6:
         password_field.error_text = "La contraseña debe tener al menos 6 caracteres"
         page.update()
-        
-    elif not login_model.validate_password(username_value, hashed_password):
+        return
+    elif not login_model.validate_login(username_value, hashed_password):
         password_field.error_text = "Contraseña incorrecta"
         login_field.error_text = None
         page.update()
