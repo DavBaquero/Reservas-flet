@@ -3,11 +3,14 @@ import Controller.login_controller as login_controller
 def login_view(page: ft.Page):
     page.controls.clear()
     page.title = "Login Page"
+    # Desabilitar el scroll de la página
     page.scroll = "disable"
 
+    # Centrar los elementos en la página
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
+    # Crear los elementos de la vista de login
     login_text = ft.Text("¿Tienes cuenta? Inicia sesión", size=25)
     login_field = ft.TextField(label="Usuario", width=300)
     password_field = ft.TextField(label="Contraseña", width=300, password=True, can_reveal_password=True)
@@ -16,6 +19,7 @@ def login_view(page: ft.Page):
     signup_text = ft.Text("¿No tienes cuenta? Regístrate", size=25)
     signup_button = ft.ElevatedButton(text="Registrarse", width=150, on_click=login_controller.register_button_clicked)
 
+    # Agregar los elementos a la página
     page.add(
         login_text,
         login_field,

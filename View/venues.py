@@ -1,14 +1,14 @@
 import flet as ft
 
 
-def user_view(page: ft.Page):
-    page.title = "User Page"
-
+def venues_view(page: ft.Page):
+    page.title = "Página de locales"
+    page.horizontal_alignment = "start"
     # Ocultamos la barra de desplazamiento
     # que se puede seguir usando
     
     page.scroll = "hidden"
 
     # Contenido de la página de usuario
-    user_text = ft.Text("Welcome to the User Page", size=30)
+    user_text = ft.Text("Texto genérico de la página de locales", size=30)
     page.add(user_text)
