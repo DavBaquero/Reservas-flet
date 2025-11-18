@@ -11,6 +11,7 @@ def create_user(username, password):
     conn.commit()
     cursor.close()
     conn.close()
+    return True
 
 
 def validate_user(username, password):
