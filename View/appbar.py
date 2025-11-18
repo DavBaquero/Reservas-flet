@@ -2,21 +2,23 @@ import flet as ft
 import View.user as user_view
 
 def create_appbar():
+    # Crea una barra de aplicaciones personalizada 
     return ft.AppBar(
         title=ft.Text("Reservas Galvintec"),
         bgcolor=ft.Colors.BLUE_GREY_700,
         actions=[
-            ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme),
+            ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
                 items=[
-                    ft.PopupMenuItem(text="Usuario", on_click=user_page),
+                    ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
                     ft.PopupMenuItem(),
                 ],
             ),
-        ],
+        ], # Acciones de la barra de aplicaciones
     )
 
 def change_theme(e):
+    #  Controlador para cambiar entre tema claro y oscuro
     page = e.page
     if page.theme_mode == "light":
         page.theme_mode = "dark"
@@ -33,6 +35,7 @@ def change_theme(e):
         page.appbar.bgcolor = "#575757"
     page.update()
 
+#  Controlador para navegar a la página de usuario
 def user_page(e):
     page = e.page
     page.controls.clear()
