@@ -8,7 +8,7 @@ def create_appbar():
     # Crea una barra de aplicaciones personalizada 
     return ft.AppBar(
         title=ft.Text("Reservas Galvintec"),
-        bgcolor=ft.Colors.BLUE_GREY_700,
+        bgcolor="#575757",
         actions=[
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
@@ -26,6 +26,7 @@ def create_appbar():
 def change_theme(e):
     #  Controlador para cambiar entre tema claro y oscuro
     page = e.page
+    
     if page.theme_mode == "light":
         page.theme_mode = "dark"
         e.control.icon = ft.Icons.NIGHTLIGHT_ROUND
@@ -38,7 +39,7 @@ def change_theme(e):
         page.appbar.bgcolor = "#575757"
     else:
         page.bgcolor = "#1B1B1B"
-        page.appbar.bgcolor = "#575757"
+        page.appbar.bgcolor = "#030202"
     page.update()
 
 #  Controlador para navegar a la página de usuario

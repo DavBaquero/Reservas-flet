@@ -24,7 +24,7 @@ def home_view(page: ft.Page):
     page.title = "Home App"
     
     # Voy a comentar esto porque si llama a eso cada vez que cargue la home
-    # no va a poder mantener el cambio de tema al dado que lo recarga
+    # no va a poder mantener el cambio de tema dado que lo recarga
     # page.appbar = create_appbar()
 
     # Ocultamos la barra de desplazamiento
@@ -36,7 +36,7 @@ def home_view(page: ft.Page):
     page.add(contenedor_bienvenida(page))
     page.update()
 
-
+# Seccion de bienvenida
 def contenedor_bienvenida(page: ft.Page):
     return ft.Container(
         width=page.width,
