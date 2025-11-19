@@ -29,8 +29,14 @@ def create_modal_dialog(reservations):
             width=600,
             height=400,
             content=ft.Column(
-                scroll=ft.ScrollMode.HIDDEN,
-                controls=[data_table],
+                expand=True,
+                scroll=ft.ScrollMode.AUTO,  # vertical
+                controls=[
+                    ft.Row(
+                        controls=[data_table],
+                        scroll=ft.ScrollMode.AUTO,  # horizontal
+                    )
+                ],
             ),
         ),
         actions=[
