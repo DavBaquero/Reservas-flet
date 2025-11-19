@@ -1,0 +1,23 @@
+import flet as ft
+
+import View.history_user as history_user
+import Model.user_model as user_model
+
+
+def historial_reservas(e, user_id):
+    page = e.page
+    reservations = user_model.get_reservations_by_user(user_id)
+    dialog = history_user.create_modal_dialog(reservations)
+    page.open(dialog)
+    page.update()
+
+def actualizar_observacion(id, observacion):
+    conexion = user_model.con.connection()
+    cursor = conexion.cursor()
+
+    query = "UPDATE reserva SET obser = %s WHERE id = %s"
+    cursor.execute(query, (observacion, id))    
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+

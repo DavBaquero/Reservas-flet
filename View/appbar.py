@@ -1,5 +1,5 @@
 import flet as ft
-import View.user as user_view
+# import View.user as user_view
 from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
@@ -13,6 +13,7 @@ def create_appbar():
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
                 items=[
+                    ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
                     ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
                     ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
                     ft.PopupMenuItem(),
@@ -41,6 +42,7 @@ def change_theme(e):
 
 #  Controlador para navegar a la página de usuario
 def user_page(e):
+    import View.user as user_view
     page = e.page
     page.controls.clear()
     user_view.user_view(page)
@@ -62,3 +64,9 @@ def reservation_page(e):
     ReservationView(page=page, controller=controller)
 
     page.update()
+
+def go_home(e):
+    import View.home as home_view
+    page = e.page
+    page.controls.clear()
+    home_view.home_view(page)
