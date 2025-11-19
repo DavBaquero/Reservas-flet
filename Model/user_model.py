@@ -26,3 +26,14 @@ def get_reservations_by_user(user_id):
     conexion.close()
 
     return reservations
+
+def set_observation(reservation_id, observation, user_id):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    print("Updating observation:", reservation_id, observation, user_id)  # Debugging line
+    query = "UPDATE reserva SET obser = %s WHERE id = %s AND usuario_id = %s"
+    cursor.execute(query, (observation, reservation_id, user_id))
+    conexion.commit()
+
+    cursor.close()
+    conexion.close()
