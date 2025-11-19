@@ -7,6 +7,10 @@ import Model.login_model as login_model
 def main(page: ft.Page):
     page.title = "Init App"
     
+    # Selecciona un tema y fondo base 
+    page.theme_mode = "light"
+    page.bgcolor = "#DBDADA"
+
     # Crear la barra de navegación. Esto se va a quitar
     # después de implementar el login todos.
     page.appbar = create_appbar()
@@ -22,5 +26,5 @@ def main(page: ft.Page):
         home_view(page)
         return
 
-
-ft.app(target=main)
+# Añado assets_dir para poder cargar una imagen default si no hay en los campos de bases de datos
+ft.app(target=main,assets_dir=".")
