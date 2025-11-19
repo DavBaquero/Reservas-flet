@@ -29,12 +29,12 @@ def create_modal_dialog(reservations):
             width=600,
             height=400,
             content=ft.Column(
-                scroll=ft.ScrollMode.ALWAYS,
+                scroll=ft.ScrollMode.HIDDEN,
                 controls=[data_table],
             ),
         ),
         actions=[
-            ft.ElevatedButton("Close", on_click=lambda e: cerrar_dialog(e, dialog)),
+            ft.ElevatedButton("Cerrar", on_click=lambda e: cerrar_dialog(e, dialog)),
         ],
         actions_alignment=ft.MainAxisAlignment.END,
     )
