@@ -1,4 +1,8 @@
 import flet as ft
+# import View.user as user_view
+from View.reservation_view import ReservationView
+from Model.reservation_model import Dish
+from Controller.reservation_controller import ReservationController
 
 def create_appbar():
     # Crea una barra de aplicaciones personalizada 
@@ -11,6 +15,8 @@ def create_appbar():
                 items=[
                     ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
                     ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
+                    ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
+                    ft.PopupMenuItem(),
                 ],
             ),
         ], # Acciones de la barra de aplicaciones
@@ -40,6 +46,24 @@ def user_page(e):
     page = e.page
     page.controls.clear()
     user_view.user_view(page)
+    
+def reservation_page(e):
+    page = e.page
+    page.controls.clear()
+
+    # Platos "hardcodeados" igual que en main
+    dishes = [
+        Dish(id=1, name="Menú del día", price=12.50),
+        Dish(id=2, name="Hamburguesa", price=9.90),
+        Dish(id=3, name="Pizza Margarita", price=10.50),
+        Dish(id=4, name="Ensalada César", price=8.00),
+    ]
+
+    controller = ReservationController(dishes=dishes)
+    # Esto construye toda la vista de reservas en la página
+    ReservationView(page=page, controller=controller)
+
+    page.update()
 
 def go_home(e):
     import View.home as home_view
