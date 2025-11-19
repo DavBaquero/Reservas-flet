@@ -16,6 +16,37 @@ def validate_login(username, password):
     # Retornar True si el usuario existe, de lo contrario False
     return user is not None
 
+def set_logged_in(username):
+    # Establecer la conexión a la base de datos
+    conn = conexion.connection()
+    # Crear un cursor para ejecutar consultas
+    cursor = conn.cursor() 
+    # Consulta SQL para actualizar el campo 'logeado' a True
+    sql_query = "UPDATE usuarios SET logeado = TRUE WHERE email = %s"
+    try:
+        # Ejecutar la consulta
+        cursor.execute(sql_query, (username,))
+        # Confirmar los cambios
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error al actualizar el estado de login: {e}")
+        conn.rollback()
+        return False
+    finally:
+        # Cerrar el cursor y la conexión
+        cursor.close()
+        conn.close()
+
+def check_active_session():
+    conn = conexion.connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT email FROM usuarios WHERE logeado = TRUE LIMIT 1")
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return user is not None
+
 # Función para validar si un usuario existe
 def validate_user_exists(username):
     # Establecer la conexión a la base de datos

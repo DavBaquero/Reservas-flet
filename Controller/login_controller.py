@@ -35,6 +35,8 @@ def login_button_clicked(e, login_field, password_field):
         page.update()
         return
 
+    user_record = login_model.validate_login(username_value, hashed_password)
+
     # Validar la contraseña
     if not password_value:
         # Si el campo de contraseña está vacío, mostrar un mensaje de error
@@ -47,20 +49,39 @@ def login_button_clicked(e, login_field, password_field):
         password_field.error_text = "La contraseña debe tener al menos 6 caracteres"
         page.update()
         return
-    elif not login_model.validate_login(username_value, hashed_password):
-        # Validar si la contraseña es correcta
+    
+    elif not user_record: 
         password_field.error_text = "Contraseña incorrecta"
         login_field.error_text = None
         page.update()
         return
-    
-    # Si todas las validaciones pasan, iniciar sesión
-    if login_model.validate_login(username_value, hashed_password):
+    if user_record: 
+        login_model.set_logged_in(username_value) 
+        
         login_field.error_text = None
         password_field.error_text = None
         page.controls.clear()
         home_view.home_view(page)
         page.update()
+
+
+    # Sustituyo esos 2 ifs por los 2 de arriba con user_record
+
+    # elif not login_model.validate_login(username_value, hashed_password):
+    #     # Validar si la contraseña es correcta
+    #     password_field.error_text = "Contraseña incorrecta"
+    #     login_field.error_text = None
+    #     page.update()
+    #     return
+    
+    # # Si todas las validaciones pasan, iniciar sesión
+    # if login_model.validate_login(username_value, hashed_password):
+    #     login_field.error_text = None
+    #     password_field.error_text = None
+    #     page.controls.clear()
+    #     home_view.home_view(page)
+    #     page.update()
+
 
 # Controlador para manejar la lógica de registro
 def register_button_clicked(e):

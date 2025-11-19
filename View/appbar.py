@@ -1,5 +1,4 @@
 import flet as ft
-import View.user as user_view
 
 def create_appbar():
     # Crea una barra de aplicaciones personalizada 
@@ -10,8 +9,8 @@ def create_appbar():
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
                 items=[
+                    ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
                     ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
-                    ft.PopupMenuItem(),
                 ],
             ),
         ], # Acciones de la barra de aplicaciones
@@ -37,6 +36,13 @@ def change_theme(e):
 
 #  Controlador para navegar a la página de usuario
 def user_page(e):
+    import View.user as user_view
     page = e.page
     page.controls.clear()
     user_view.user_view(page)
+
+def go_home(e):
+    import View.home as home_view
+    page = e.page
+    page.controls.clear()
+    home_view.home_view(page)
