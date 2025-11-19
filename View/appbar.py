@@ -14,9 +14,10 @@ def create_appbar():
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
-                    ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
-                    ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
                     ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
+                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
                 ],
             ),
         ], # Acciones de la barra de aplicaciones
