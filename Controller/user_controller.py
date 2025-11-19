@@ -11,13 +11,5 @@ def historial_reservas(e, user_id):
     page.open(dialog)
     page.update()
 
-def actualizar_observacion(id, observacion):
-    conexion = user_model.con.connection()
-    cursor = conexion.cursor()
-
-    query = "UPDATE reserva SET obser = %s WHERE id = %s"
-    cursor.execute(query, (observacion, id))    
-    conexion.commit()
-    cursor.close()
-    conexion.close()
-
+def actualizar_observacion(id, observacion, user_id):
+    user_model.set_observation(id, observacion, user_id)

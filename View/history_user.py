@@ -14,6 +14,7 @@ def create_modal_dialog(reservations):
         )
         for r in reservations
     ]
+    user_id = reservations[0].get("usuario_id") if reservations else None
     
     data_table = ft.DataTable(
         columns=[
@@ -42,7 +43,7 @@ def create_modal_dialog(reservations):
             ),
         ),
         actions=[
-            ft.ElevatedButton("Guardar", on_click=lambda e: guardar_obser(e, dialog)),
+            ft.ElevatedButton("Guardar", on_click=lambda e: guardar_obser(e, dialog, user_id=user_id)),
             ft.ElevatedButton("Cerrar", on_click=lambda e: cerrar_dialog(e, dialog)),
         ],
         actions_alignment=ft.MainAxisAlignment.END,
@@ -53,7 +54,7 @@ def cerrar_dialog(e,dialog):
     e.page.close(dialog)
     e.page.update()
 
-def guardar_obser(e, dialog):
+def guardar_obser(e, dialog, user_id):
         try:
             dt = dialog.content.content.controls[0].controls[0]
             posicion = 0
@@ -61,8 +62,8 @@ def guardar_obser(e, dialog):
                 if len(row.cells) >= 4:
                     c = row.cells[3].content
                     posicion += 1
-                    user_controller.actualizar_observacion(posicion, str(c.value or ""))
-            e.page.close(dialog)
+                    user_controller.actualizar_observacion(posicion, str(c.value or ""), user_id)
             e.page.update()
+            e.page.close(dialog)
         except Exception as ex:
             print("No se pudo acceder a la tabla de datos.", ex)
