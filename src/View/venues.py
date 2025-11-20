@@ -57,18 +57,33 @@ def venues_view(page: ft.Page):
 
     # Función auxiliar para crear una tarjeta individual de local
     def create_local_card(local):
+        imagen_src = local["url_imagen"]
+
+        # 1. Verificar si el valor es una cadena.
+        if isinstance(imagen_src, str):
+            # 2. Si es una cadena, eliminamos espacios en blanco al inicio y al final (strip)
+            imagen_src = imagen_src.strip()
+
+        # 3. La condición 'if not' manejará:
+        #    - El valor original si era None.
+        #    - Una cadena vacía ("") después de hacer strip.
+        if not imagen_src:
+            imagen_src = "default.png"
+
         # Función que se ejecuta al hacer clic en "Ir a Reservar"
-        def handle_reserve_click(e, local_id=local["id_local"], local_name=local["nombre"]):
+        def handle_reserve_click(
+            e, local_id=local["id_local"], local_name=local["nombre"]
+        ):
             page = e.page
             page.controls.clear()
-            if local_id == 1 :
+            if local_id == 1:
                 dishes = [
                     Dish(id=1, name="Menú del día", price=12.50),
                     Dish(id=2, name="Hamburguesa", price=9.90),
                     Dish(id=3, name="Pizza Margarita", price=10.50),
                     Dish(id=4, name="Ensalada César", price=8.00),
                 ]
-            else :
+            else:
                 dishes = [
                     Dish(id=1, name="Testeo 1", price=12.50),
                     Dish(id=2, name="Testeo 2", price=9.90),
@@ -77,7 +92,7 @@ def venues_view(page: ft.Page):
                 ]
 
             controller = ReservationController(dishes=dishes)
-            
+
             ReservationView(page=page, controller=controller)
 
             page.update()
@@ -85,16 +100,16 @@ def venues_view(page: ft.Page):
         return ft.Card(
             elevation=4,
             content=ft.Container(
-               expand=True,
+                expand=True,
                 content=ft.Column(
                     controls=[
                         # Contenedor de la Imagen:
                         ft.Image(
                             # Ahora mismo carga una imagen estática
                             # En el caso real se cargaría una url del campo en la base de datos
-                            src="img/default.png",
+                            src=imagen_src,
                             height=200,
-                            fit=ft.ImageFit.COVER,
+                            fit=ft.ImageFit.CONTAIN,
                             error_content=ft.Container(
                                 content=ft.Text(
                                     "Imagen no disponible", color=ft.Colors.RED
@@ -109,7 +124,7 @@ def venues_view(page: ft.Page):
                                 f"{local['nombre']}", weight=ft.FontWeight.BOLD
                             ),
                             subtitle=ft.Text(
-                                local["descripcion"],
+                                local['descripcion'],
                                 max_lines=1,
                                 overflow=ft.TextOverflow.ELLIPSIS,
                             ),

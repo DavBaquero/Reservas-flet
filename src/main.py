@@ -1,5 +1,6 @@
 import flet as ft
 
+
 from View.appbar import create_appbar
 from View.login import login_view
 import Model.login_model as login_model
@@ -26,5 +27,4 @@ def main(page: ft.Page):
         home_view(page)
         return
 
-# Añado assets_dir para poder cargar una imagen default si no hay en los campos de bases de datos
-ft.app(target=main,assets_dir=".")
+ft.app(target=main)
