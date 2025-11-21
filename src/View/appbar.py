@@ -4,11 +4,13 @@ from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
 
+from config import LIGHT_BG, DARK_BG, LIGHT_APPBAR_BG, DARK_APPBAR_BG
+
 def create_appbar():
     # Crea una barra de aplicaciones personalizada 
     return ft.AppBar(
         title=ft.Text("Reservas Galvintec"),
-        bgcolor="#575757",
+        bgcolor=LIGHT_APPBAR_BG,
         actions=[
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
@@ -16,8 +18,8 @@ def create_appbar():
                     ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
                     ft.PopupMenuItem(),
                     ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
-                    ft.PopupMenuItem(),
-                    ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
+                    # ft.PopupMenuItem(),
+                    # ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
                 ],
             ),
         ], # Acciones de la barra de aplicaciones
@@ -35,11 +37,11 @@ def change_theme(e):
         e.control.icon = ft.Icons.WB_SUNNY_OUTLINED
     
     if page.theme_mode == "light":
-        page.bgcolor = "#DBDADA"
-        page.appbar.bgcolor = "#575757"
+        page.bgcolor = LIGHT_BG
+        page.appbar.bgcolor = LIGHT_APPBAR_BG
     else:
-        page.bgcolor = "#1B1B1B"
-        page.appbar.bgcolor = "#030202"
+        page.bgcolor = DARK_BG
+        page.appbar.bgcolor = DARK_APPBAR_BG
     page.update()
 
 #  Controlador para navegar a la página de usuario

@@ -4,6 +4,8 @@ import View.home as home_view
 import View.register as register_view
 import Model.login_model as login_model
 import hashlib
+from View.appbar import create_appbar
+
 
 # Controlador para manejar la lógica de inicio de sesión
 def login_button_clicked(e, login_field, password_field):
@@ -57,11 +59,11 @@ def login_button_clicked(e, login_field, password_field):
         return
     if user_record: 
         login_model.set_logged_in(username_value) 
-        
         login_field.error_text = None
         password_field.error_text = None
         page.controls.clear()
         home_view.home_view(page)
+        page.appbar = create_appbar()
         page.update()
 
 
