@@ -1,11 +1,11 @@
-from dataclasses import dataclass
+# Model/reservation_model.py
+from dataclasses import dataclass, field
 from datetime import date
 from typing import List, Optional
 
 
 @dataclass
 class Dish:
-    """Plato del restaurante."""
     id: int
     name: str
     price: float
@@ -13,14 +13,12 @@ class Dish:
 
 @dataclass
 class Reservation:
-    """
-    Reserva sencilla: fecha, hora, nº personas y platos.
-    """
-    date: date          
-    time: str          
+    date: date
+    time: str
     people: int
-    dishes: List[Dish]
+    dishes: List[Dish] = field(default_factory=list)
 
     customer_name: Optional[str] = None
     phone: Optional[str] = None
     notes: Optional[str] = None
+    user_id: Optional[int] = None
