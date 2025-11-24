@@ -1,6 +1,5 @@
 import flet as ft
 
-from View.home import home_view
 import Model.register_model as register_model
 import hashlib
 
@@ -64,7 +63,8 @@ def register_button_clicked(e, username, password, password_confirm):
             return
         # Si el usuario se crea correctamente, redirigir a la vista de inicio
         page.controls.clear()
-        home_view(page)
+        from View.login import login_view
+        login_view(page)
         page.update()
 
 # Función para encriptar la contraseña utilizando SHA-256

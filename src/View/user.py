@@ -3,6 +3,8 @@ import flet as ft
 import Model.user_model as user_model
 import Controller.user_controller as user_controller
 
+from config import CARD_BG, SUCCESS_COLOR
+
 user_id = 1  # Simulando un ID de usuario obtenido después del login
 def user_view(page: ft.Page):
     page.title = "User Page"
