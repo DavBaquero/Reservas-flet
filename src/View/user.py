@@ -43,11 +43,19 @@ def user_view(page: ft.Page):
                         ft.ElevatedButton("Historial de reservas", expand=1, on_click=lambda e: user_controller.historial_reservas(e, user_id=user_id)),
                     ],
                 ),
+                ft.Divider(),
                 ft.Row(
                     controls=[
-                        ft.ElevatedButton("Cambiar contraseña", expand=1, on_click=lambda e: user_controller.cambiar_contraseña(e,user_id=user_id))
-                    ]
+                        ft.ElevatedButton("Cambiar contraseña", expand=0, on_click=lambda e: user_controller.cambiar_contraseña(e,user_id=user_id))
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER
                 ),
+                ft.Row(
+                    controls=[
+                        ft.ElevatedButton("Cerrar sesión", expand=0, on_click=lambda e: user_controller.log_out(e, user_id))
+                    ],
+                    alignment=ft.MainAxisAlignment.END
+                )
             ],
             spacing=20,
             alignment=ft.MainAxisAlignment.START,
