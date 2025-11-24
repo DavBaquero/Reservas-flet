@@ -67,14 +67,17 @@ def create_local_card(local):
                 controls=[
                     ft.Text(local["nombre"], size=20, weight=ft.FontWeight.BOLD),
                     ft.Image(
-                        src=(
-                            local["url_imagen"]
-                            if local["url_imagen"]
-                            else "/images/default_venue.png"
-                        ),
+                        src=local["url_imagen"],
                         width=float("inf"),
                         height=200,
                         fit=ft.ImageFit.COVER,
+                        error_content=ft.Container(
+                            content=ft.Text(
+                                "Imagen no disponible", color=ft.Colors.RED
+                            ),
+                            alignment=ft.alignment.center,
+                            height=200,
+                        ),
                     ),
                     ft.Text(
                         local["descripcion"],

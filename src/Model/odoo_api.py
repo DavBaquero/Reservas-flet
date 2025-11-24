@@ -1,7 +1,7 @@
 import xmlrpc.client
 import re
 
-OD_URL = 'http://localhost:17069' 
+OD_URL = 'https://analyzed-barn-ribbon-uni.trycloudflare.com' 
 OD_DB = 'devel' 
 OD_USER = 'admin' 
 OD_PASSWORD = 'admin' 
