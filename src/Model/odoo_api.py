@@ -76,7 +76,7 @@ def get_venues_from_odoo():
     pos_map = get_pos_config_name_map()
 
     try:
-        fields_to_fetch = ['id', 'name', 'comment', 'email', 'phone', 'image_1920']
+        fields_to_fetch = ['id', 'name', 'comment', 'email', 'phone', 'avatar_128']
         
         odoo_locales = models.execute_kw(
             db, 
@@ -95,7 +95,7 @@ def get_venues_from_odoo():
         
         for local in odoo_locales:
             
-            image_b64 = local.get('image_1920')
+            image_b64 = local.get('avatar_128')
             url_imagen = ""
             if image_b64:
                 url_imagen = f"data:image/png;base64,{image_b64}" 
