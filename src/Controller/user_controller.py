@@ -15,7 +15,7 @@ def historial_reservas(e, user_id):
 def actualizar_observacion(id, observacion, user_id):
     user_model.set_observation(id, observacion, user_id)
 
-def cambiar_contrseña(e, user_id):
+def cambiar_contraseña(e, user_id):
     page = e.page
     dialog = user_pass.create_dialog(user_id)
     page.open(dialog)
