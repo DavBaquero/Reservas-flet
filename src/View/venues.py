@@ -104,10 +104,10 @@ def venues_view(page: ft.Page):
                                 ],
                                 alignment=ft.MainAxisAlignment.END,
                             ),
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                ],
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.END,
+                ),
             ),
         )
 

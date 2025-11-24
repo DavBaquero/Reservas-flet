@@ -3,6 +3,7 @@ import flet as ft
 from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
+from config import LIGHT_APPBAR_BG
 
 
 def create_appbar():
