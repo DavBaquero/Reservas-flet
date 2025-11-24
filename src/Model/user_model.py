@@ -37,3 +37,22 @@ def set_observation(reservation_id, observation, user_id):
 
     cursor.close()
     conexion.close()
+
+def get_password_hashed(user_id):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    query = f"select contra from usuarios where id = {user_id}"
+    cursor.execute(query)
+    password = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    return password
+
+def set_password(user_id, new_pass):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    query = f"update usuarios set contra = '{new_pass}' where id = {user_id}"
+    cursor.execute(query)
+    conexion.commit()
+    cursor.close()
+    conexion.close()
