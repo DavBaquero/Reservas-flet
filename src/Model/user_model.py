@@ -56,3 +56,13 @@ def set_password(user_id, new_pass):
     conexion.commit()
     cursor.close()
     conexion.close()
+
+def log_out(user_id):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    estado = 0
+    query = f"update usuarios set logeado = {0} where id = {user_id}"
+    cursor.execute(query)
+    conexion.commit()
+    cursor.close()
+    conexion.close()

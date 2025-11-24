@@ -3,6 +3,7 @@ import flet as ft
 import View.history_user as history_user
 import Model.user_model as user_model
 import View.user_password as user_pass
+from View.login import login_view
 
 
 def historial_reservas(e, user_id):
@@ -15,8 +16,14 @@ def historial_reservas(e, user_id):
 def actualizar_observacion(id, observacion, user_id):
     user_model.set_observation(id, observacion, user_id)
 
-def cambiar_contrseña(e, user_id):
+def cambiar_contraseña(e, user_id):
     page = e.page
     dialog = user_pass.create_dialog(user_id)
     page.open(dialog)
+    page.update()
+
+def log_out(e, user_id):
+    page = e.page
+    user_model.log_out(user_id)
+    login_view(page)
     page.update()
