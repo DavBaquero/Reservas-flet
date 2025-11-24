@@ -1,30 +1,19 @@
 import flet as ft
-
-from View.appbar import create_appbar
-from View.login import login_view
+from Controller.router import route_change, view_pop
 import Model.login_model as login_model
 
 def main(page: ft.Page):
-    page.title = "Init App"
-    
-    # Selecciona un tema y fondo base 
+    page.title = "Reservas Galvintec"
     page.theme_mode = "light"
     page.bgcolor = "#DBDADA"
 
-    # Crear la barra de navegación. Esto se va a quitar
-    # después de implementar el login todos.
-    page.appbar = create_appbar()
-    
-    sesion = login_model.check_active_session()
-    if not sesion:
-        # Mostrar la vista de login,
-        # Al no tener sesión iniciada.
-        login_view(page)
-        return
-    else:
-        from View.home import home_view
-        home_view(page)
-        return
+    page.on_route_change = lambda r: route_change(page)
+    page.on_view_pop = lambda v: view_pop(page)
 
-# Añado assets_dir para poder cargar una imagen default si no hay en los campos de bases de datos
-ft.app(target=main,assets_dir=".")
+    # Navegación inicial según sesión
+    if login_model.check_active_session():
+        page.go("/")
+    else:
+        page.go("/login")
+
+ft.app(target=main)
