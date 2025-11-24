@@ -20,12 +20,13 @@ def get_venues_data():
         print(f"Error BD: {err}")
         return [
             {
-                "id_local": 99,
-                "nombre": "Restaurante Ficticio",
-                "descripcion": "Error de conexión. Datos de prueba.",
-                "tipo_local": "Restaurante",
+                "id_local": 0,
+                "nombre": "No hay Locales Odoo (res.partner)",
+                "descripcion": "Verifica credenciales, Etiqueta, y que las Compañías existan.",
                 "horario": "N/A",
                 "url_imagen": "",
+                "pos_config_id": None, 
+                "pos_config_name": "N/A",
             }
         ]
     finally:
@@ -83,7 +84,8 @@ def venues_view(page: ft.Page):
                             content=ft.Row(
                                 [ft.Text(f"Horario: {local['horario']}", size=12)]
                             ),
-                            padding=ft.padding.symmetric(horizontal=15, vertical=5),
+                            alignment=ft.alignment.center,
+                            height=200,
                         ),
                         ft.Container(
                             content=ft.Row(
@@ -102,13 +104,10 @@ def venues_view(page: ft.Page):
                                 ],
                                 alignment=ft.MainAxisAlignment.END,
                             ),
-                            padding=ft.padding.all(10),
-                        ),
-                    ],
-                    spacing=0,
-                ),
-                padding=ft.padding.all(0),
-                width=400,
+                        ],
+                        alignment=ft.MainAxisAlignment.END,
+                    ),
+                ],
             ),
         )
 
@@ -135,7 +134,7 @@ def venues_view(page: ft.Page):
         label="Filtrar por nombre",
         prefix_icon=ft.Icons.SEARCH,
         on_change=update_venues_display,
-        width=500,
+        expand=True,
     )
 
     # Carga inicial

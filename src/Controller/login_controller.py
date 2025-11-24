@@ -3,6 +3,8 @@ import View.home as home_view
 import View.register as register_view
 import Model.login_model as login_model
 import hashlib
+from View.appbar import create_appbar
+
 
 def login_button_clicked(e: ft.ControlEvent, login_field, password_field):
     page = e.page

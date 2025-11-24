@@ -1,6 +1,5 @@
 import flet as ft
 
-from View.home import home_view
 import Model.register_model as register_model
 import hashlib
 

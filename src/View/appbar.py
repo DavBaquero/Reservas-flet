@@ -8,7 +8,7 @@ from Controller.reservation_controller import ReservationController
 def create_appbar():
     return ft.AppBar(
         title=ft.Text("Reservas Galvintec"),
-        bgcolor="#575757",
+        bgcolor=LIGHT_APPBAR_BG,
         actions=[
             ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme),
             ft.PopupMenuButton(
