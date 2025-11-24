@@ -26,4 +26,5 @@ def log_out(e, user_id):
     page = e.page
     user_model.log_out(user_id)
     login_view(page)
+    page.appbar = None
     page.update()

@@ -11,3 +11,4 @@ CARD_BG = ft.Colors.WHITE
 # Fondo App Bar 
 LIGHT_APPBAR_BG = ft.Colors.LIGHT_BLUE_100 
 DARK_APPBAR_BG = ft.Colors.INDIGO_900      
+
