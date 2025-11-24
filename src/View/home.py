@@ -38,6 +38,7 @@ def home_view(page: ft.Page):
 
 # Seccion de bienvenida
 def contenedor_bienvenida(page: ft.Page):
+       
     return ft.Container(
         width=page.width,
         height=page.height,
@@ -65,7 +66,7 @@ def contenedor_bienvenida(page: ft.Page):
                     text_align=ft.TextAlign.CENTER,
                 ),
                 ft.Text(
-                    "Tu plataforma confiable para gestionar tus citas y servicios de manera rápida y eficiente. ¡Empieza a reservar ahora!",
+                    "Tu plataforma confiable para reservas en restaurantes de manera rápida y eficiente. ¡Empieza a reservar ahora!",
                     size=18,
                     text_align=ft.TextAlign.CENTER,
                     width=600,

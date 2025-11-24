@@ -70,7 +70,7 @@ def save_reservation(reservation: Reservation) -> None:
             fecha_str,
             reservation.time,
             reservation.people,
-            False,
+            1,
             tipo,
             reservation.notes,
             reservation.user_id or 1,

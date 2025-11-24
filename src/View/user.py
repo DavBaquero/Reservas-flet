@@ -3,6 +3,8 @@ import flet as ft
 import Model.user_model as user_model
 import Controller.user_controller as user_controller
 
+from config import CARD_BG, SUCCESS_COLOR
+
 user_id = 1  # Simulando un ID de usuario obtenido después del login
 def user_view(page: ft.Page):
     page.title = "User Page"
@@ -28,7 +30,7 @@ def user_view(page: ft.Page):
                         ft.Row(
                             controls=[
                                 ft.Text("Estado:", weight=ft.FontWeight.W_600, width=120, color=ft.Colors.BLACK),
-                                ft.Text("Activo", expand=1, color=ft.Colors.GREEN_700),
+                                ft.Text("Activo", expand=1, color=SUCCESS_COLOR),
                             ]
                         ),
                         ft.Row(
@@ -50,7 +52,7 @@ def user_view(page: ft.Page):
                 ),
                 alignment=ft.alignment.center,
                 padding=20,
-                bgcolor=ft.Colors.WHITE,
+                bgcolor=CARD_BG,
                 border=ft.border.all(1, ft.Colors.GREY_300),
                 border_radius=12,
                 shadow=ft.BoxShadow(blur_radius=8, spread_radius=1),

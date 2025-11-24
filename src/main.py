@@ -5,16 +5,14 @@ from View.appbar import create_appbar
 from View.login import login_view
 import Model.login_model as login_model
 
+from config import LIGHT_BG
+
 def main(page: ft.Page):
     page.title = "Init App"
     
     # Selecciona un tema y fondo base 
     page.theme_mode = "light"
-    page.bgcolor = "#DBDADA"
-
-    # Crear la barra de navegación. Esto se va a quitar
-    # después de implementar el login todos.
-    page.appbar = create_appbar()
+    page.bgcolor = LIGHT_BG
     
     sesion = login_model.check_active_session()
     if not sesion:
@@ -23,6 +21,7 @@ def main(page: ft.Page):
         login_view(page)
         return
     else:
+        page.appbar = create_appbar()
         from View.home import home_view
         home_view(page)
         return

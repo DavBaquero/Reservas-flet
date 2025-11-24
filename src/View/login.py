@@ -1,5 +1,6 @@
 import flet as ft
 import Controller.login_controller as login_controller
+
 def login_view(page: ft.Page):
     page.controls.clear()
     page.title = "Login Page"
