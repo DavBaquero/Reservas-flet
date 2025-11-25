@@ -9,7 +9,7 @@ def home_view(page: ft.Page):
         scroll="auto",
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         vertical_alignment=ft.MainAxisAlignment.START,
-        appbar= create_appbar(),
+        appbar= create_appbar(page, show_back_button=False),
         controls=[
             ft.Container(
                 alignment=ft.alignment.center,
