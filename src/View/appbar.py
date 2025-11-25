@@ -17,8 +17,6 @@ def create_appbar():
                     ft.PopupMenuItem(text="Home", on_click=lambda e: e.page.go("/")),
                     ft.PopupMenuItem(),
                     ft.PopupMenuItem(text="Usuario", on_click=lambda e: e.page.go("/user")),
-                    ft.PopupMenuItem(),
-                    ft.PopupMenuItem(text="Reservas", on_click=lambda e: e.page.go("/venues")),
                 ],
             ),
         ],
@@ -43,4 +41,16 @@ def change_theme(e):
         page.bgcolor = "#1B1B1B"
         if page.appbar:
             page.appbar.bgcolor = "#030202"
+    page.update()
+
+def add_appbar(page: ft.Page, show_back_button: bool = False):
+    appbar = create_appbar()
+    
+    if show_back_button:
+        appbar.leading = ft.IconButton(
+            icon=ft.Icons.ARROW_BACK,
+            on_click=lambda e: e.page.go("/")
+        )
+    
+    page.appbar = appbar
     page.update()

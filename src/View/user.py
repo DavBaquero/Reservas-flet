@@ -2,14 +2,14 @@ import flet as ft
 
 import Model.user_model as user_model
 import Controller.user_controller as user_controller
-from View.appbar import create_appbar
+from View.appbar import add_appbar, create_appbar
 
 from config import CARD_BG, SUCCESS_COLOR
 
 user_id = 1  # Simulando un ID de usuario obtenido después del login
 
 def user_view(page: ft.Page):
-
+    add_appbar(page, show_back_button=True)
     grid = ft.ResponsiveRow(
         run_spacing=10, 
         spacing=5,
@@ -119,7 +119,7 @@ def user_view(page: ft.Page):
     grid.controls.append(user_info_container)
 
     return ft.View(
-        appbar=create_appbar(),
+        appbar=page.appbar,
         route="/user",
         controls=[user_info_container],
         vertical_alignment=ft.MainAxisAlignment.CENTER,

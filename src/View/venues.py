@@ -2,7 +2,7 @@ import flet as ft
 import Model.conexion as conexion
 import mysql.connector
 from Model.reservation_model import Dish
-from View.appbar import create_appbar
+from View.appbar import add_appbar, create_appbar
 
 
 def get_venues_data():
@@ -38,7 +38,7 @@ def get_venues_data():
 
 def venues_view(page: ft.Page):
     all_locales = get_venues_data()
-
+    add_appbar(page, show_back_button=True)
     # Contenedor donde se actualizarán las tarjetas
     venues_display = ft.ResponsiveRow(
         controls=[],
@@ -150,7 +150,7 @@ def venues_view(page: ft.Page):
     return ft.View(
         route="/venues",
         scroll="auto",
-        appbar=create_appbar(),
+        appbar=page.appbar,
         controls=[
             ft.Text("Listado de locales disponibles", size=30, weight=ft.FontWeight.BOLD),
             ft.Divider(),
