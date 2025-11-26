@@ -26,3 +26,10 @@ def log_out(e, user_id):
     page = e.page
     user_model.log_out(user_id)
     page.go("/login")
+
+def cancelar(id_reserva, estado):
+    if estado == "1":
+        estado = 0
+    else:
+        estado = 1
+    user_model.set_state_reserva(id_reserva, estado)
