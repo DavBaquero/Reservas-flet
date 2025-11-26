@@ -85,3 +85,12 @@ def get_theme(user_id):
     cursor.close()
     conexion.close()
     return valor
+
+def set_state_reserva(id_reserva, estado):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    query = f"update reserva set estado = {estado} where id = {int(id_reserva)}"
+    cursor.execute(query)
+    conexion.commit()
+    cursor.close()
+    conexion.close()
