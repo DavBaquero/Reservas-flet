@@ -7,17 +7,18 @@ from View.appbar import create_appbar
 user_id = 1  
 
 def user_view(page: ft.Page):
-    
+    # Obtenemos el usuario y sacamos su correo
     user_data = user_model.get_user(user_id)
     user_email = user_data.get("email", "N/A")
 
+    # Añadimos los contenidos de la vista
     user_info_container = ft.Container(
         col={"xs": 12, "sm": 10, "md": 8, "lg": 6, "xl": 4},
         content=ft.Column(
             controls=[
                 ft.Text("Datos del Usuario", size=22, weight=ft.FontWeight.BOLD),
                 ft.Divider(),
-                
+                # Definimos la primera parte de los datos de usuario
                 ft.Row(
                     controls=[
                         ft.Text(
@@ -33,7 +34,7 @@ def user_view(page: ft.Page):
                         ),
                     ],
                 ),
-                
+                # Definimos la segunda parte de los datos de usuario
                 ft.Row(
                     controls=[
                         ft.Text(
@@ -45,7 +46,7 @@ def user_view(page: ft.Page):
                         ft.Text("Activo", expand=1, color=ft.Colors.TERTIARY),
                     ],
                 ),
-                
+                # Definimos la tercera parte de los datos de usuario
                 ft.Row(
                     controls=[
                         ft.Text(
@@ -63,7 +64,7 @@ def user_view(page: ft.Page):
                 ),
 
                 ft.Divider(),
-                
+                # Definimos la última parte de los datos de usuario
                 ft.Row(
                     controls=[
                         ft.ElevatedButton("Cambiar contraseña", expand=0, on_click=lambda e: user_controller.cambiar_contraseña(e,user_id=user_id))
@@ -91,6 +92,7 @@ def user_view(page: ft.Page):
         width=500
     )
     
+    # Devolvemos la vista, con el appbar y la ruta asignada
     return ft.View(
         appbar=create_appbar(page, show_back_button=True),
         route="/user",
