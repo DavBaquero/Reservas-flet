@@ -75,3 +75,13 @@ def change_theme(valor,user_id):
     conexion.commit()
     cursor.close()
     conexion.close()
+
+def get_theme(user_id):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    query = f"select dark_mode from usuarios where id = {user_id}"
+    cursor.execute(query)
+    valor = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    return valor
