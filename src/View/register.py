@@ -3,6 +3,7 @@ import Controller.register_controller as register_controller
 
 def register_view(page: ft.Page):
 
+    # Definimos los campos
     go_back = ft.IconButton(
         icon=ft.Icons.ARROW_BACK,
         on_click= register_controller.go_back
@@ -24,6 +25,7 @@ def register_view(page: ft.Page):
         ),
     )
 
+    # Devolvemos la vista con su respectiva ruta
     return ft.View(
         route="/register",
         controls=[
