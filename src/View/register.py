@@ -3,6 +3,10 @@ import Controller.register_controller as register_controller
 
 def register_view(page: ft.Page):
 
+    go_back = ft.IconButton(
+        icon=ft.Icons.ARROW_BACK,
+        on_click= register_controller.go_back
+    )
     register_text = ft.Text("Regístrate", size=25)
     username_field = ft.TextField(label="Usuario", width=300)
     password_field = ft.TextField(
@@ -24,7 +28,7 @@ def register_view(page: ft.Page):
         route="/register",
         controls=[
             ft.Column(
-                [
+                [   go_back,
                     register_text,
                     username_field,
                     password_field,

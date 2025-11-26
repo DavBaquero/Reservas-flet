@@ -66,3 +66,6 @@ def register_button_clicked(e, username, password, password_confirm):
 # Función para encriptar la contraseña utilizando SHA-256
 def hashed_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
+def go_back(e: ft.ControlEvent):
+    e.page.go("/login")
