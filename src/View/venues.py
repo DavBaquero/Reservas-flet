@@ -38,7 +38,6 @@ def get_venues_data():
 
 def venues_view(page: ft.Page):
     all_locales = get_venues_data()
-    # Contenedor donde se actualizarán las tarjetas
     venues_display = ft.ResponsiveRow(
         controls=[],
         run_spacing=20,
@@ -46,11 +45,8 @@ def venues_view(page: ft.Page):
         alignment=ft.MainAxisAlignment.CENTER,
     )
 
-    # ---- Crear tarjeta individual de local ----
     def create_local_card(local):
-
         def handle_click(e):
-            # navegación correcta usando rutas
             page.go(f"/reservar/{local['id_local']}")
 
         return ft.Card(
@@ -65,7 +61,7 @@ def venues_view(page: ft.Page):
                             fit=ft.ImageFit.COVER,
                             error_content=ft.Container(
                                 content=ft.Text(
-                                    "Imagen no disponible", color=ft.Colors.RED
+                                    "Imagen no disponible", color=ft.Colors.ERROR
                                 ),
                                 alignment=ft.alignment.center,
                                 height=200,
@@ -84,7 +80,7 @@ def venues_view(page: ft.Page):
                                 [ft.Text(f"Horario: {local['horario']}", size=12)]
                             ),
                             alignment=ft.alignment.center,
-                            height=200,
+                            height=200, 
                         ),
                         ft.Container(
                             content=ft.Row(
@@ -96,8 +92,6 @@ def venues_view(page: ft.Page):
                                             padding=ft.padding.symmetric(
                                                 horizontal=20
                                             ),
-                                            bgcolor=ft.Colors.BLUE_GREY_700,
-                                            color=ft.Colors.WHITE,
                                         ),
                                     )
                                 ],
@@ -110,7 +104,6 @@ def venues_view(page: ft.Page):
             ),
         )
 
-    # ---- Filtro ----
     def update_venues_display(e):
         filter_text = filter_textbox.value.lower()
 
@@ -136,7 +129,6 @@ def venues_view(page: ft.Page):
         expand=True,
     )
 
-    # Carga inicial
     venues_display.controls = [
         ft.Container(
             content=create_local_card(local),
@@ -145,7 +137,6 @@ def venues_view(page: ft.Page):
         for local in all_locales
     ]
 
-    # ---- Devuelve un VIEW correcto ----
     return ft.View(
         route="/venues",
         scroll="auto",

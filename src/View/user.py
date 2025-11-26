@@ -4,15 +4,12 @@ import Model.user_model as user_model
 import Controller.user_controller as user_controller
 from View.appbar import create_appbar
 
-user_id = 1  # Simulando un ID de usuario obtenido después del login
+user_id = 1  
 
 def user_view(page: ft.Page):
-    grid = ft.ResponsiveRow(
-        run_spacing=10, 
-        spacing=5,
-        alignment=ft.MainAxisAlignment.CENTER,
-        vertical_alignment=ft.CrossAxisAlignment.START,
-    )
+    
+    user_data = user_model.get_user(user_id)
+    user_email = user_data.get("email", "N/A")
 
     user_info_container = ft.Container(
         col={"xs": 12, "sm": 10, "md": 8, "lg": 6, "xl": 4},
@@ -20,74 +17,60 @@ def user_view(page: ft.Page):
             controls=[
                 ft.Text("Datos del Usuario", size=22, weight=ft.FontWeight.BOLD),
                 ft.Divider(),
+                
                 ft.Row(
                     controls=[
-                        ft.Divider(),
-                        ft.Row(
-                            controls=[
-                                ft.Text(
-                                    "Email:",
-                                    weight=ft.FontWeight.W_600,
-                                    width=50,
-                                    color=ft.Colors.BLACK,
-                                ),
-                                ft.TextField(
-                                    user_model.get_user(user_id)["email"],
-                                    read_only=True,
-                                    expand=1,
-                                    color=ft.Colors.BLACK,
-                                ),
-                            ],
+                        ft.Text(
+                            "Email:",
+                            weight=ft.FontWeight.W_600,
+                            width=120,
+                            color=ft.Colors.ON_SURFACE,
                         ),
-                        ft.Row(
-                            controls=[
-                                ft.Text(
-                                    "Estado:",
-                                    weight=ft.FontWeight.W_600,
-                                    width=120,
-                                    color=ft.Colors.BLACK,
-                                ),
-                                ft.Text("Activo", expand=1, color=ft.Colors.GREEN_700),
-                            ]
-                        ),
-                        ft.Row(
-                            controls=[
-                                ft.Text(
-                                    "Reservas:",
-                                    weight=ft.FontWeight.W_600,
-                                    width=120,
-                                    color=ft.Colors.BLACK,
-                                ),
-                                ft.ElevatedButton(
-                                    "Historial de reservas",
-                                    expand=1,
-                                    on_click=lambda e: user_controller.historial_reservas(
-                                        e, user_id=user_id
-                                    ),
-                                ),
-                            ]
+                        ft.TextField(
+                            user_email,
+                            read_only=True,
+                            expand=1,
                         ),
                     ],
                 ),
+                
                 ft.Row(
                     controls=[
-                        ft.Text("Estado:", weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE),
+                        ft.Text(
+                            "Estado:",
+                            weight=ft.FontWeight.W_600,
+                            width=120,
+                            color=ft.Colors.ON_SURFACE,
+                        ),
                         ft.Text("Activo", expand=1, color=ft.Colors.TERTIARY),
                     ],
                 ),
+                
                 ft.Row(
                     controls=[
-                        ft.Text("Reservas:", weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE),
-                        ft.ElevatedButton("Historial de reservas", expand=1, on_click=lambda e: user_controller.historial_reservas(e, user_id=user_id)),
+                        ft.Text(
+                            "Reservas:",
+                            weight=ft.FontWeight.W_600,
+                            width=120,
+                            color=ft.Colors.ON_SURFACE,
+                        ),
+                        ft.ElevatedButton(
+                            "Historial de reservas",
+                            expand=1,
+                            on_click=lambda e: user_controller.historial_reservas(e, user_id=user_id),
+                        ),
                     ],
                 ),
+
                 ft.Divider(),
+                
                 ft.Row(
                     controls=[
                         ft.ElevatedButton("Cambiar contraseña", expand=0, on_click=lambda e: user_controller.cambiar_contraseña(e,user_id=user_id))
                     ],
                     alignment=ft.MainAxisAlignment.CENTER
                 ),
+                
                 ft.Row(
                     controls=[
                         ft.ElevatedButton("Cerrar sesión", expand=0, on_click=lambda e: user_controller.log_out(e, user_id))
@@ -101,18 +84,21 @@ def user_view(page: ft.Page):
         ),
         alignment=ft.alignment.center,
         padding=20,
-        bgcolor=ft.Colors.SURFACE,
+        bgcolor=ft.Colors.SURFACE, 
         border=ft.border.all(1, ft.Colors.with_opacity(0.3, ft.Colors.ON_SURFACE)),
         border_radius=12,
         shadow=ft.BoxShadow(blur_radius=8, spread_radius=1),
+        width=500
     )
     
-    grid.controls.append(user_info_container)
-
     return ft.View(
         appbar=create_appbar(page, show_back_button=True),
         route="/user",
-        controls=[user_info_container],
+        controls=[ft.Container(
+            content=user_info_container,
+            expand=True, 
+            alignment=ft.alignment.center
+        )],
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         scroll="hidden",

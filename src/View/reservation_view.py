@@ -133,7 +133,7 @@ class ReservationView:
 
     def show_status(self, message: str, error: bool = False) -> None:
         self.status_text.value = message
-        self.status_text.color = ft.colors.ERROR if error else ft.colors.TERTIARY
+        self.status_text.color = ft.Colors.ERROR if error else ft.Colors.TERTIARY
         self.page.update()
 
     def reset_form(self) -> None:
