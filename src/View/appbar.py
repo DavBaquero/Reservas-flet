@@ -4,44 +4,32 @@ from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
 
-from config import LIGHT_BG, DARK_BG, LIGHT_APPBAR_BG, DARK_APPBAR_BG
-
 def create_appbar():
     # Crea una barra de aplicaciones personalizada 
     return ft.AppBar(
         title=ft.Text("Reservas Galvintec"),
-        bgcolor=LIGHT_APPBAR_BG,
         actions=[
-            ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED, on_click=change_theme), #  para cambiar el tema claro/oscuro
+            ft.IconButton(ft.Icons.NIGHTLIGHT_ROUND, on_click=change_theme), #  para cambiar el tema claro/oscuro
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
                     ft.PopupMenuItem(),
                     ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
-                    # ft.PopupMenuItem(),
-                    # ft.PopupMenuItem(text="Reservas", on_click=reservation_page), # Acceso a la página de reservas
                 ],
             ),
         ], # Acciones de la barra de aplicaciones
     )
 
 def change_theme(e):
-    #  Controlador para cambiar entre tema claro y oscuro
     page = e.page
     
-    if page.theme_mode == "light":
-        page.theme_mode = "dark"
+    if page.theme_mode == ft.ThemeMode.LIGHT:
+        page.theme_mode = ft.ThemeMode.DARK
+        e.control.icon = ft.Icons.WB_SUNNY_OUTLINED 
+    else:
+        page.theme_mode = ft.ThemeMode.LIGHT
         e.control.icon = ft.Icons.NIGHTLIGHT_ROUND
-    else:
-        page.theme_mode = "light"
-        e.control.icon = ft.Icons.WB_SUNNY_OUTLINED
     
-    if page.theme_mode == "light":
-        page.bgcolor = LIGHT_BG
-        page.appbar.bgcolor = LIGHT_APPBAR_BG
-    else:
-        page.bgcolor = DARK_BG
-        page.appbar.bgcolor = DARK_APPBAR_BG
     page.update()
 
 #  Controlador para navegar a la página de usuario

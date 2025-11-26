@@ -2,14 +2,14 @@ import flet as ft
 
 import Controller.user_controller as user_controller
 
-from config import SUCCESS_COLOR, ERROR_COLOR
-
 def create_modal_dialog(reservations):
+    COLOR_SUCCESS = ft.Colors.TERTIARY
+    COLOR_ERROR = ft.Colors.ERROR
     rows = [
         ft.DataRow(
             cells=[
                 ft.DataCell(ft.Text(f"{r.get('fecha','')}/{r.get('hora','')}")),
-                ft.DataCell(ft.Text("Realizado" if r.get("estado") == 1 else "Cancelada", color=SUCCESS_COLOR if r.get("estado") == 1 else ERROR_COLOR)), 
+                ft.DataCell(ft.Text("Realizado" if r.get("estado") == 1 else "Cancelada", color=COLOR_SUCCESS if r.get("estado") == 1 else COLOR_ERROR)), 
                 ft.DataCell(ft.Text(r.get("tipo", ""))),
                 ft.DataCell(ft.TextField(r.get("obser", ""), multiline=True, expand=True)),
             ]

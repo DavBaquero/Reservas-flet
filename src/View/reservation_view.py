@@ -8,10 +8,6 @@ from Controller.reservation_controller import ReservationController
 
 
 class ReservationView:
-    """
-    Vista Flet para gestionar reservas del restaurante.
-    Construye la UI y delega la lógica en el controller.
-    """
 
     def __init__(self, page: ft.Page, controller: ReservationController):
         self.page = page
@@ -137,7 +133,7 @@ class ReservationView:
 
     def show_status(self, message: str, error: bool = False) -> None:
         self.status_text.value = message
-        self.status_text.color = ft.Colors.RED if error else ft.Colors.GREEN
+        self.status_text.color = ft.colors.ERROR if error else ft.colors.TERTIARY
         self.page.update()
 
     def reset_form(self) -> None:

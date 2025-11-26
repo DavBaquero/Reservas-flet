@@ -73,7 +73,7 @@ def create_local_card(local):
                         fit=ft.ImageFit.COVER,
                         error_content=ft.Container(
                             content=ft.Text(
-                                "Imagen no disponible", color=ft.Colors.RED
+                                "Imagen no disponible", color=ft.Colors.ERROR
                             ),
                             alignment=ft.alignment.center,
                             height=200,

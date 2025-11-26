@@ -66,25 +66,6 @@ def login_button_clicked(e, login_field, password_field):
         page.appbar = create_appbar()
         page.update()
 
-
-    # Sustituyo esos 2 ifs por los 2 de arriba con user_record
-
-    # elif not login_model.validate_login(username_value, hashed_password):
-    #     # Validar si la contraseña es correcta
-    #     password_field.error_text = "Contraseña incorrecta"
-    #     login_field.error_text = None
-    #     page.update()
-    #     return
-    
-    # # Si todas las validaciones pasan, iniciar sesión
-    # if login_model.validate_login(username_value, hashed_password):
-    #     login_field.error_text = None
-    #     password_field.error_text = None
-    #     page.controls.clear()
-    #     home_view.home_view(page)
-    #     page.update()
-
-
 # Controlador para manejar la lógica de registro
 def register_button_clicked(e):
     page = e.page
