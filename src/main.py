@@ -1,8 +1,7 @@
 import flet as ft
 from Controller.router import route_change, view_pop
 import Model.login_model as login_model
-
-from config import LIGHT_BG
+from config.app_theme import theme_light, theme_dark
 
 def main(page: ft.Page):
     page.title = "Reservas Galvintec"

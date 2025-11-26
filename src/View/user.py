@@ -4,8 +4,6 @@ import Model.user_model as user_model
 import Controller.user_controller as user_controller
 from View.appbar import create_appbar
 
-from config import CARD_BG, SUCCESS_COLOR
-
 user_id = 1  # Simulando un ID de usuario obtenido después del login
 
 def user_view(page: ft.Page):
@@ -20,7 +18,7 @@ def user_view(page: ft.Page):
         col={"xs": 12, "sm": 10, "md": 8, "lg": 6, "xl": 4},
         content=ft.Column(
             controls=[
-                ft.Text("Datos del Usuario", size=22, weight=ft.FontWeight.BOLD, color=ft.Colors.BLACK),
+                ft.Text("Datos del Usuario", size=22, weight=ft.FontWeight.BOLD),
                 ft.Divider(),
                 ft.Row(
                     controls=[
@@ -73,13 +71,13 @@ def user_view(page: ft.Page):
                 ),
                 ft.Row(
                     controls=[
-                        ft.Text("Estado:", weight=ft.FontWeight.W_600, color=ft.Colors.BLACK),
-                        ft.Text("Activo", expand=1, color=ft.Colors.GREEN_700),
+                        ft.Text("Estado:", weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE),
+                        ft.Text("Activo", expand=1, color=ft.Colors.TERTIARY),
                     ],
                 ),
                 ft.Row(
                     controls=[
-                        ft.Text("Reservas:", weight=ft.FontWeight.W_600, color=ft.Colors.BLACK),
+                        ft.Text("Reservas:", weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE),
                         ft.ElevatedButton("Historial de reservas", expand=1, on_click=lambda e: user_controller.historial_reservas(e, user_id=user_id)),
                     ],
                 ),
@@ -103,8 +101,8 @@ def user_view(page: ft.Page):
         ),
         alignment=ft.alignment.center,
         padding=20,
-        bgcolor=ft.Colors.WHITE,
-        border=ft.border.all(1, ft.Colors.GREY_300),
+        bgcolor=ft.Colors.SURFACE,
+        border=ft.border.all(1, ft.Colors.with_opacity(0.3, ft.Colors.ON_SURFACE)),
         border_radius=12,
         shadow=ft.BoxShadow(blur_radius=8, spread_radius=1),
     )
