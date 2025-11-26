@@ -10,6 +10,7 @@ def create_modal_dialog(reservations):
             cells=[
                 ft.DataCell(ft.Text(f"{r.get('fecha','')}/{r.get('hora','')}")),
                 ft.DataCell(ft.Text("Realizado" if r.get("estado") == 1 else "Cancelada", color=COLOR_SUCCESS if r.get("estado") == 1 else COLOR_ERROR)), 
+                ft.DataCell(ft.ElevatedButton("Cancelar" if r.get("estado") == 1 else "Reactivar", on_click= lambda e: cancelar_cita(e, dialog), data=str(r.get("id")) +","+ str(r.get("estado")))),
                 ft.DataCell(ft.Text(r.get("tipo", ""))),
                 ft.DataCell(ft.TextField(r.get("obser", ""), multiline=True, expand=True)),
             ]
@@ -22,6 +23,7 @@ def create_modal_dialog(reservations):
         columns=[
             ft.DataColumn(ft.Text("Fecha y Hora")),
             ft.DataColumn(ft.Text("Estado")),
+            ft.DataColumn(ft.Text()),
             ft.DataColumn(ft.Text("Tipo")),
             ft.DataColumn(ft.Text("Observaciones")),
         ],
@@ -62,10 +64,18 @@ def guardar_obser(e, dialog, user_id):
         posicion = 0
         for row in dt.rows:
             if len(row.cells) >= 4:
-                c = row.cells[3].content
+                c = row.cells[4].content
                 posicion += 1
                 user_controller.actualizar_observacion(posicion, str(c.value or ""), user_id)
         e.page.update()
         e.page.close(dialog)
     except Exception as ex:
         print("No se pudo acceder a la tabla de datos.", ex)
+
+def cancelar_cita(e: ft.ControlEvent, dialog):
+    data = e.control.data
+    parts = data.split(",")
+    reserva_id = parts[0]
+    estado = parts[1]
+    cerrar_dialog(e, dialog)
+    user_controller.cancelar(reserva_id, estado)
