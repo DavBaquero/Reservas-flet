@@ -1,15 +1,23 @@
 import flet as ft
-import Model.odoo_api as odoo_api
-
-from View.reservation_view import ReservationView
-from Controller.reservation_controller import ReservationController
+import Model.conexion as conexion
+import mysql.connector
 from Model.reservation_model import Dish
+from View.appbar import create_appbar
 
 
 def get_venues_data():
-    locales_data = odoo_api.get_venues_from_odoo()
-
-    if not locales_data:
+    locales_data = []
+    try:
+        conn = conexion.connection()
+        cursor = conn.cursor(dictionary=True)
+        query = (
+            "SELECT id_local, nombre, descripcion, tipo_local, horario, url_imagen "
+            "FROM locales WHERE activo = TRUE"
+        )
+        cursor.execute(query)
+        locales_data = cursor.fetchall()
+    except mysql.connector.Error as err:
+        print(f"Error BD: {err}")
         return [
             {
                 "id_local": 0,
@@ -21,168 +29,136 @@ def get_venues_data():
                 "pos_config_name": "N/A",
             }
         ]
-
+    finally:
+        if "conn" in locals() and conn.is_connected():
+            cursor.close()
+            conn.close()
     return locales_data
-
-
-def handle_reservation_click(e, local):
-    page = e.page
-
-    nombre_local = local["nombre"].lower()
-
-    if "milongas" in nombre_local:
-        category_name = "Milongas"
-    elif "restaurante la cuchara" in nombre_local:
-        category_name = "Cuchara"
-        
-    dishes = odoo_api.get_products_by_category_name(category_name)
-    
-    if not dishes:
-        dishes = [
-            Dish(id=1, name="Menú del día", price=12.50),
-            Dish(id=2, name="Hamburguesa", price=9.90),
-            Dish(id=3, name="Pizza Margarita", price=10.50),
-            Dish(id=4, name="Ensalada César", price=8.00),
-        ]
-
-    controller = ReservationController(dishes=dishes)
-    ReservationView(page=page, controller=controller)
-    page.update()
-
-
-def create_local_card(local):
-    
-    pos_id = local.get('pos_config_id')
-    is_linked = pos_id is not None
-    
-    # verification_text = (
-    #     f"Local: {local.get('nombre')}\n"
-    #     f"TPV Encontrado: {local.get('pos_config_name', 'N/A')} (ID: {pos_id or 'N/A'})"
-    # )
-
-    return ft.Card(
-        elevation=10,
-        content=ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Text(local["nombre"], size=20, weight=ft.FontWeight.BOLD),
-                    ft.Image(
-                        src=local["url_imagen"],
-                        width=float("inf"),
-                        height=200,
-                        fit=ft.ImageFit.COVER,
-                        error_content=ft.Container(
-                            content=ft.Text(
-                                "Imagen no disponible", color=ft.Colors.ERROR
-                            ),
-                            alignment=ft.alignment.center,
-                            height=200,
-                        ),
-                    ),
-                    ft.Text(
-                        local["descripcion"],
-                        size=12,
-                        max_lines=3,
-                        overflow=ft.TextOverflow.ELLIPSIS,
-                    ),
-                    ft.Text(f"Teléfono: {local['horario']}", size=12),
-                    
-                    # ft.Text(
-                    #     verification_text,
-                    #     size=10,
-                    #     color=ft.Colors.RED_600 if not is_linked else ft.Colors.GREEN_600,
-                    #     weight=ft.FontWeight.BOLD,
-                    # ),
-                    
-                    ft.Row(
-                        [
-                            ft.FilledButton(
-                                text="Reservar",
-                                icon=ft.Icons.BOOKMARK_ADD_OUTLINED,
-                                on_click=lambda e: handle_reservation_click(e, local),
-                                disabled=not is_linked,
-                            ),
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                ],
-            ),
-            padding=15,
-            border_radius=12,
-        ),
-    )
 
 
 def venues_view(page: ft.Page):
     all_locales = get_venues_data()
+    # Contenedor donde se actualizarán las tarjetas
+    venues_display = ft.ResponsiveRow(
+        controls=[],
+        run_spacing=20,
+        spacing=20,
+        alignment=ft.MainAxisAlignment.CENTER,
+    )
 
+    # ---- Crear tarjeta individual de local ----
+    def create_local_card(local):
+
+        def handle_click(e):
+            # navegación correcta usando rutas
+            page.go(f"/reservar/{local['id_local']}")
+
+        return ft.Card(
+            elevation=4,
+            content=ft.Container(
+                expand=True,
+                content=ft.Column(
+                    controls=[
+                        ft.Image(
+                            src="img/default.png",
+                            height=200,
+                            fit=ft.ImageFit.COVER,
+                            error_content=ft.Container(
+                                content=ft.Text(
+                                    "Imagen no disponible", color=ft.Colors.RED
+                                ),
+                                alignment=ft.alignment.center,
+                                height=200,
+                            ),
+                        ),
+                        ft.ListTile(
+                            title=ft.Text(local["nombre"], weight=ft.FontWeight.BOLD),
+                            subtitle=ft.Text(
+                                local["descripcion"],
+                                max_lines=1,
+                                overflow=ft.TextOverflow.ELLIPSIS,
+                            ),
+                        ),
+                        ft.Container(
+                            content=ft.Row(
+                                [ft.Text(f"Horario: {local['horario']}", size=12)]
+                            ),
+                            alignment=ft.alignment.center,
+                            height=200,
+                        ),
+                        ft.Container(
+                            content=ft.Row(
+                                [
+                                    ft.ElevatedButton(
+                                        text="Ir a Reservar",
+                                        on_click=handle_click,
+                                        style=ft.ButtonStyle(
+                                            padding=ft.padding.symmetric(
+                                                horizontal=20
+                                            ),
+                                            bgcolor=ft.Colors.BLUE_GREY_700,
+                                            color=ft.Colors.WHITE,
+                                        ),
+                                    )
+                                ],
+                                alignment=ft.MainAxisAlignment.END,
+                            ),
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.END,
+                ),
+            ),
+        )
+
+    # ---- Filtro ----
     def update_venues_display(e):
-        filter_text = e.control.value.lower()
+        filter_text = filter_textbox.value.lower()
 
         filtered_locales = [
-            local for local in all_locales if filter_text in local["nombre"].lower()
+            local
+            for local in all_locales
+            if filter_text in local["nombre"].lower()
         ]
 
-        new_cards = [
+        venues_display.controls = [
             ft.Container(
                 content=create_local_card(local),
                 col={"sm": 12, "md": 6, "lg": 4},
             )
             for local in filtered_locales
         ]
-
-        venues_display.controls = new_cards
-        page.update()
+        venues_display.update()
 
     filter_textbox = ft.TextField(
-        label="Filtrar por nombre del local",
-        hint_text="Escribe el nombre del local...",
+        label="Filtrar por nombre",
         prefix_icon=ft.Icons.SEARCH,
         on_change=update_venues_display,
         expand=True,
     )
 
-    venues_display = ft.ResponsiveRow(
-        [
-            ft.Container(
-                content=create_local_card(local),
-                col={"sm": 12, "md": 6, "lg": 4},
-            )
-            for local in all_locales
-        ],
-        run_spacing=20,
-    )
-
-    filter_layout = ft.ResponsiveRow(
-        [
-            ft.Container(col={"lg": 4, "md": 3}), 
-
-            ft.Container( 
-                content=filter_textbox,
-                col={"sm": 12, "md": 6, "lg": 4},
-            ),
-
-            ft.Container(col={"lg": 4, "md": 3}),
-        ],
-        run_spacing={"sm": 0},
-        alignment=ft.MainAxisAlignment.CENTER,
-    )
-
-    page.clean()
-
-    page.add(
-        ft.Text("Listado de locales disponibles", size=30, weight=ft.FontWeight.BOLD),
-        ft.Divider(),
-        
+    # Carga inicial
+    venues_display.controls = [
         ft.Container(
-            content=filter_layout,
-            padding=ft.padding.only(left=10, right=10, top=10, bottom=10) 
-        ),
-        
-        ft.Container(
-            content=venues_display,
-            padding=ft.padding.only(top=20)
+            content=create_local_card(local),
+            col={"sm": 12, "md": 6, "lg": 4},
         )
-    )
+        for local in all_locales
+    ]
 
-    page.update()
+    # ---- Devuelve un VIEW correcto ----
+    return ft.View(
+        route="/venues",
+        scroll="auto",
+        appbar=create_appbar(page, show_back_button=True),
+        controls=[
+            ft.Text("Listado de locales disponibles", size=30, weight=ft.FontWeight.BOLD),
+            ft.Divider(),
+            ft.Container(
+                content=filter_textbox,
+                alignment=ft.alignment.center,
+                padding=ft.padding.only(bottom=20),
+            ),
+            venues_display,
+        ],
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+    )

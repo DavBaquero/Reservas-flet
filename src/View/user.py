@@ -2,16 +2,11 @@ import flet as ft
 
 import Model.user_model as user_model
 import Controller.user_controller as user_controller
+from View.appbar import create_appbar
 
 user_id = 1  # Simulando un ID de usuario obtenido después del login
+
 def user_view(page: ft.Page):
-    page.title = "User Page"
-
-    # Ocultamos la barra de desplazamiento
-    # que se puede seguir usando
-    
-    page.scroll = "hidden"
-
     grid = ft.ResponsiveRow(
         run_spacing=10, 
         spacing=5,
@@ -27,8 +22,51 @@ def user_view(page: ft.Page):
                 ft.Divider(),
                 ft.Row(
                     controls=[
-                        ft.Text("Email:", weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE),
-                        ft.TextField(user_model.get_user(user_id)["email"], read_only=True, expand=1),
+                        ft.Divider(),
+                        ft.Row(
+                            controls=[
+                                ft.Text(
+                                    "Email:",
+                                    weight=ft.FontWeight.W_600,
+                                    width=50,
+                                    color=ft.Colors.BLACK,
+                                ),
+                                ft.TextField(
+                                    user_model.get_user(user_id)["email"],
+                                    read_only=True,
+                                    expand=1,
+                                    color=ft.Colors.BLACK,
+                                ),
+                            ],
+                        ),
+                        ft.Row(
+                            controls=[
+                                ft.Text(
+                                    "Estado:",
+                                    weight=ft.FontWeight.W_600,
+                                    width=120,
+                                    color=ft.Colors.BLACK,
+                                ),
+                                ft.Text("Activo", expand=1, color=ft.Colors.GREEN_700),
+                            ]
+                        ),
+                        ft.Row(
+                            controls=[
+                                ft.Text(
+                                    "Reservas:",
+                                    weight=ft.FontWeight.W_600,
+                                    width=120,
+                                    color=ft.Colors.BLACK,
+                                ),
+                                ft.ElevatedButton(
+                                    "Historial de reservas",
+                                    expand=1,
+                                    on_click=lambda e: user_controller.historial_reservas(
+                                        e, user_id=user_id
+                                    ),
+                                ),
+                            ]
+                        ),
                     ],
                 ),
                 ft.Row(
@@ -71,4 +109,11 @@ def user_view(page: ft.Page):
     
     grid.controls.append(user_info_container)
 
-    page.add(grid)
+    return ft.View(
+        appbar=create_appbar(page, show_back_button=True),
+        route="/user",
+        controls=[user_info_container],
+        vertical_alignment=ft.MainAxisAlignment.CENTER,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        scroll="hidden",
+    )

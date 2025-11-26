@@ -62,11 +62,7 @@ def register_button_clicked(e, username, password, password_confirm):
             page.update()
             return
         # Si el usuario se crea correctamente, redirigir a la vista de inicio
-        page.controls.clear()
-        from View.login import login_view
-        login_view(page)
-        page.update()
-
+        page.go("/")
 # Función para encriptar la contraseña utilizando SHA-256
 def hashed_password(password):
     return hashlib.sha256(password.encode()).hexdigest()

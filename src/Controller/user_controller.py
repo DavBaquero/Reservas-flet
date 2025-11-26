@@ -25,5 +25,4 @@ def cambiar_contraseña(e, user_id):
 def log_out(e, user_id):
     page = e.page
     user_model.log_out(user_id)
-    login_view(page)
-    page.update()
+    page.go("/login")

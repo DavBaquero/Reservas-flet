@@ -1,30 +1,20 @@
 import flet as ft
-
-
-from View.appbar import create_appbar
-from View.login import login_view
+from Controller.router import route_change, view_pop
 import Model.login_model as login_model
 from config.app_theme import theme_light, theme_dark
 
 def main(page: ft.Page):
-    page.title = "Init App"
-    
-    page.theme = theme_light
+    page.title = "Reservas Galvintec"
+    page.theme_mode = "light"
+    page.bgcolor = "#DBDADA"
 
-    page.dark_theme = theme_dark
+    page.on_route_change = lambda r: route_change(page)
+    page.on_view_pop = lambda v: view_pop(page)
 
-    page.theme_mode = ft.ThemeMode.LIGHT
-    
-    sesion = login_model.check_active_session()
-    if not sesion:
-        # Mostrar la vista de login,
-        # Al no tener sesión iniciada.
-        login_view(page)
-        return
+    # Navegación inicial según sesión
+    if login_model.check_active_session():
+        page.go("/")
     else:
-        page.appbar = create_appbar()
-        from View.home import home_view
-        home_view(page)
-        return
+        page.go("/login")
 
 ft.app(target=main)

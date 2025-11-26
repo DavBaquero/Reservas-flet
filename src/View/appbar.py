@@ -3,62 +3,60 @@ import flet as ft
 from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
+from config import  LIGHT_APPBAR_BG, DARK_APPBAR_BG, LIGHT_BG, DARK_BG
 
-def create_appbar():
-    # Crea una barra de aplicaciones personalizada 
-    return ft.AppBar(
-        title=ft.Text("Reservas Galvintec"),
+
+def create_appbar(page: ft.Page, show_back_button: bool = False):
+    color = ft.Colors.BLACK if page.theme_mode == "light" else ft.Colors.WHITE
+
+    if not hasattr(page, '_theme_button'):
+        page._theme_button = ft.IconButton(
+            ft.Icons.WB_SUNNY_OUTLINED, 
+            on_click=lambda e: change_theme(e, page._theme_button),
+            icon_color=color,
+        )
+    else:
+        page._theme_button.icon_color = color
+        
+    appbar = ft.AppBar(
+        title=ft.Text("Reservas Galvintec", color=color),
+        bgcolor=LIGHT_APPBAR_BG if page.theme_mode == "light" else DARK_APPBAR_BG,
         actions=[
-            ft.IconButton(ft.Icons.NIGHTLIGHT_ROUND, on_click=change_theme), #  para cambiar el tema claro/oscuro
+            page._theme_button,
             ft.PopupMenuButton(
+                icon_color=color,
                 items=[
-                    ft.PopupMenuItem(text="Home", on_click=go_home), # Acceso a la página principal
+                    ft.PopupMenuItem(text="Home", on_click=lambda e: e.page.go("/")),
                     ft.PopupMenuItem(),
-                    ft.PopupMenuItem(text="Usuario", on_click=user_page), # Acceso a la página de usuario
+                    ft.PopupMenuItem(text="Usuario", on_click=lambda e: e.page.go("/user")),
                 ],
             ),
-        ], # Acciones de la barra de aplicaciones
+        ],
     )
+    
+    if show_back_button:
+        appbar.leading = ft.IconButton(
+            icon=ft.Icons.ARROW_BACK,
+            icon_color=color,
+            on_click=lambda e: e.page.go("/")
+        )
+    
+    return appbar
 
-def change_theme(e):
+def change_theme(e, theme_button):
     page = e.page
     
-    if page.theme_mode == ft.ThemeMode.LIGHT:
-        page.theme_mode = ft.ThemeMode.DARK
-        e.control.icon = ft.Icons.WB_SUNNY_OUTLINED 
+    if page.theme_mode == "light":
+        page.theme_mode = "dark"
+        theme_button.icon = ft.Icons.NIGHTLIGHT_ROUND
+        page.bgcolor = DARK_BG
     else:
-        page.theme_mode = ft.ThemeMode.LIGHT
-        e.control.icon = ft.Icons.NIGHTLIGHT_ROUND
-    
-    page.update()
+        page.theme_mode = "light"
+        theme_button.icon = ft.Icons.WB_SUNNY_OUTLINED
+        page.bgcolor = LIGHT_BG
 
-#  Controlador para navegar a la página de usuario
-def user_page(e):
-    import View.user as user_view
-    page = e.page
-    page.controls.clear()
-    user_view.user_view(page)
-    
-def reservation_page(e):
-    page = e.page
-    page.controls.clear()
-
-    # Platos "hardcodeados" igual que en main
-    dishes = [
-        Dish(id=1, name="Menú del día", price=12.50),
-        Dish(id=2, name="Hamburguesa", price=9.90),
-        Dish(id=3, name="Pizza Margarita", price=10.50),
-        Dish(id=4, name="Ensalada César", price=8.00),
-    ]
-
-    controller = ReservationController(dishes=dishes)
-    # Esto construye toda la vista de reservas en la página
-    ReservationView(page=page, controller=controller)
+    if page.views:
+        current_view = page.views[-1]
+        current_view.appbar = create_appbar(page)
 
     page.update()
-
-def go_home(e):
-    import View.home as home_view
-    page = e.page
-    page.controls.clear()
-    home_view.home_view(page)
