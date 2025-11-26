@@ -66,3 +66,12 @@ def log_out(user_id):
     conexion.commit()
     cursor.close()
     conexion.close()
+
+def change_theme(valor,user_id):
+    conexion = con.connection()
+    cursor = conexion.cursor()
+    query = f"update usuarios set dark_mode = {valor} where id ={user_id}"
+    cursor.execute(query)
+    conexion.commit()
+    cursor.close()
+    conexion.close()

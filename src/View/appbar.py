@@ -1,9 +1,8 @@
 import flet as ft
-# import View.user as user_view
-from View.reservation_view import ReservationView
-from Model.reservation_model import Dish
-from Controller.reservation_controller import ReservationController
 
+from Model.user_model import change_theme as bd_theme
+
+user_id = 1 #Falseamos el id
 
 def create_appbar(page: ft.Page, show_back_button: bool = False):
     if not hasattr(page, '_theme_button'):
@@ -43,12 +42,22 @@ def change_theme(e, theme_button):
     if page.theme_mode == ft.ThemeMode.LIGHT:
         page.theme_mode = ft.ThemeMode.DARK
         theme_button.icon = ft.Icons.WB_SUNNY_OUTLINED 
+        theme_change(page.theme_mode.value, user_id)
     else:
         page.theme_mode = ft.ThemeMode.LIGHT
-        theme_button.icon = ft.Icons.NIGHTLIGHT_ROUND 
+        theme_button.icon = ft.Icons.NIGHTLIGHT_ROUND
+        theme_change(page.theme_mode.value, user_id)
 
     if page.views:
         current_view = page.views[-1]
         current_view.appbar = create_appbar(page, show_back_button=current_view.route != "/")
 
     page.update()
+
+    
+def theme_change(theme, user_id):
+    if theme == "dark":
+        valor = 1
+    else:
+        valor = 0
+    bd_theme(valor, user_id)
