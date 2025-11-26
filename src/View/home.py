@@ -1,9 +1,8 @@
 import flet as ft
-import Model.login_model as login_model
 from View.appbar import create_appbar
 
 def home_view(page: ft.Page):
-    # Vista que retorna un ft.View y no toca page directamente
+    # Retornamos la vista con su respectiva ruta asignada
     return ft.View(
         route="/",
         scroll="auto",
