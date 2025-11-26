@@ -3,6 +3,7 @@ import Controller.login_controller as login_controller
 
 def login_view(page: ft.Page):
 
+    # Definimos los campos de la página
     login_text = ft.Text("¿Tienes cuenta? Inicia sesión", size=25)
     login_field = ft.TextField(label="Usuario", width=300)
     password_field = ft.TextField(label="Contraseña", width=300, password=True, can_reveal_password=True)
@@ -23,6 +24,7 @@ def login_view(page: ft.Page):
         on_click=login_controller.register_button_clicked
     )
 
+    # Devolvemos todo como un View al cual le hemos asignado su ruta
     return ft.View(
         route="/login",
         controls=[
