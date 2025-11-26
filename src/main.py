@@ -5,8 +5,11 @@ from config.app_theme import theme_light, theme_dark
 
 def main(page: ft.Page):
     page.title = "Reservas Galvintec"
-    page.theme_mode = "light"
-    page.bgcolor = "#DBDADA"
+
+    page.theme = theme_light
+    page.dark_theme = theme_dark
+    
+    page.theme_mode = ft.ThemeMode.LIGHT
 
     page.on_route_change = lambda r: route_change(page)
     page.on_view_pop = lambda v: view_pop(page)

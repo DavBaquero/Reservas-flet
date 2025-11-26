@@ -3,28 +3,22 @@ import flet as ft
 from View.reservation_view import ReservationView
 from Model.reservation_model import Dish
 from Controller.reservation_controller import ReservationController
-from config import  LIGHT_APPBAR_BG, DARK_APPBAR_BG, LIGHT_BG, DARK_BG
 
 
 def create_appbar(page: ft.Page, show_back_button: bool = False):
-    color = ft.Colors.BLACK if page.theme_mode == "light" else ft.Colors.WHITE
-
     if not hasattr(page, '_theme_button'):
-        page._theme_button = ft.IconButton(
-            ft.Icons.WB_SUNNY_OUTLINED, 
-            on_click=lambda e: change_theme(e, page._theme_button),
-            icon_color=color,
-        )
-    else:
-        page._theme_button.icon_color = color
+        initial_icon = ft.Icons.NIGHTLIGHT_ROUND if page.theme_mode == ft.ThemeMode.LIGHT else ft.Icons.WB_SUNNY_OUTLINED
         
+        page._theme_button = ft.IconButton(
+            initial_icon, 
+            on_click=lambda e: change_theme(e, page._theme_button),
+        )
+
     appbar = ft.AppBar(
-        title=ft.Text("Reservas Galvintec", color=color),
-        bgcolor=LIGHT_APPBAR_BG if page.theme_mode == "light" else DARK_APPBAR_BG,
+        title=ft.Text("Reservas Galvintec"),
         actions=[
             page._theme_button,
             ft.PopupMenuButton(
-                icon_color=color,
                 items=[
                     ft.PopupMenuItem(text="Home", on_click=lambda e: e.page.go("/")),
                     ft.PopupMenuItem(),
@@ -37,7 +31,7 @@ def create_appbar(page: ft.Page, show_back_button: bool = False):
     if show_back_button:
         appbar.leading = ft.IconButton(
             icon=ft.Icons.ARROW_BACK,
-            icon_color=color,
+            # Eliminar icon_color codificado. Usará ON_PRIMARY del tema.
             on_click=lambda e: e.page.go("/")
         )
     
@@ -46,17 +40,15 @@ def create_appbar(page: ft.Page, show_back_button: bool = False):
 def change_theme(e, theme_button):
     page = e.page
     
-    if page.theme_mode == "light":
-        page.theme_mode = "dark"
-        theme_button.icon = ft.Icons.NIGHTLIGHT_ROUND
-        page.bgcolor = DARK_BG
+    if page.theme_mode == ft.ThemeMode.LIGHT:
+        page.theme_mode = ft.ThemeMode.DARK
+        theme_button.icon = ft.Icons.WB_SUNNY_OUTLINED 
     else:
-        page.theme_mode = "light"
-        theme_button.icon = ft.Icons.WB_SUNNY_OUTLINED
-        page.bgcolor = LIGHT_BG
+        page.theme_mode = ft.ThemeMode.LIGHT
+        theme_button.icon = ft.Icons.NIGHTLIGHT_ROUND 
 
     if page.views:
         current_view = page.views[-1]
-        current_view.appbar = create_appbar(page)
+        current_view.appbar = create_appbar(page, show_back_button=current_view.route != "/")
 
     page.update()

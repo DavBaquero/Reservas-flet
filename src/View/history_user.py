@@ -34,11 +34,11 @@ def create_modal_dialog(reservations):
             height=400,
             content=ft.Row(
                 expand=True,
-                scroll=ft.ScrollMode.AUTO,  # horizontal
+                scroll=ft.ScrollMode.AUTO,
                 controls=[
                     ft.Column(
                         height=400,
-                        scroll=ft.ScrollMode.ALWAYS,  # vertical
+                        scroll=ft.ScrollMode.ALWAYS,
                         controls=[data_table],
                     )
                 ],
@@ -57,15 +57,15 @@ def cerrar_dialog(e,dialog):
     e.page.update()
 
 def guardar_obser(e, dialog, user_id):
-        try:
-            dt = dialog.content.content.controls[0].controls[0]
-            posicion = 0
-            for row in dt.rows:
-                if len(row.cells) >= 4:
-                    c = row.cells[3].content
-                    posicion += 1
-                    user_controller.actualizar_observacion(posicion, str(c.value or ""), user_id)
-            e.page.update()
-            e.page.close(dialog)
-        except Exception as ex:
-            print("No se pudo acceder a la tabla de datos.", ex)
+    try:
+        dt = dialog.content.content.controls[0].controls[0]
+        posicion = 0
+        for row in dt.rows:
+            if len(row.cells) >= 4:
+                c = row.cells[3].content
+                posicion += 1
+                user_controller.actualizar_observacion(posicion, str(c.value or ""), user_id)
+        e.page.update()
+        e.page.close(dialog)
+    except Exception as ex:
+        print("No se pudo acceder a la tabla de datos.", ex)
